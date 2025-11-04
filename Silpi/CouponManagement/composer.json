@@ -1,0 +1,17 @@
+{
+    "name": "silpi/couponmanegment",
+    "description": "Silpi Coupon Management Module",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Silpi\\CouponManegment\\": ""
+        }
+    }
+}
