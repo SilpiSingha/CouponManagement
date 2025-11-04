@@ -8,5 +8,19 @@
             <resource ref="Magento_SalesRule::rule"/>
         </resources>
     </route>
+
+    <route url="/V1/coupon/list" method="GET">
+        <service class="Silpi\CouponManagement\Api\CouponListInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_SalesRule::rule"/>
+        </resources>
+    </route>
+
+    <route url="/V1/coupon/:id" method="GET">
+        <service class="Silpi\CouponManagement\Api\CouponGetInterface" method="getById"/>
+        <resources>
+            <resource ref="Magento_SalesRule::rule"/>
+        </resources>
+    </route>
 </routes>
 
