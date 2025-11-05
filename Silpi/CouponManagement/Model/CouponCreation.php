@@ -100,4 +100,52 @@ class CouponCreation implements CouponManagementInterface
         ];
         return json_encode($condition);
     }
+
+    /**
+     * Update coupon details by ID
+     */
+    public function updateCoupon($id, $couponData)
+    {
+        $table = $this->resource->getTableName('discount_rules');
+
+        if (!$this->isCouponExist($id)) {
+            throw new LocalizedException(__('Coupon with ID %1 not found.', $id));
+        }
+
+        $this->connection->update(
+            $table,
+            $couponData,
+            ['id = ?' => (int)$id]
+        );
+
+        return ['success' => true, 'message' => __('Coupon updated successfully.')];
+    }
+
+    /**
+     * Delete coupon by ID
+     */
+    public function deleteCoupon($id)
+    {
+        $table = $this->resource->getTableName('discount_rules');
+
+        if (!$this->isCouponExist($id)) {
+            throw new LocalizedException(__('Coupon with ID %1 not found.', $id));
+        }
+
+        $this->connection->delete($table, ['id = ?' => (int)$id]);
+
+        return ['success' => true, 'message' => __('Coupon deleted successfully.')];
+    }
+
+    /**
+     * Check if coupon exists
+     */
+    private function isCouponExist($id)
+    {
+        $table = $this->resource->getTableName('discount_rules');
+        $select = $this->connection->select()
+            ->from($table, ['id'])
+            ->where('id = ?', (int)$id);
+        return (bool)$this->connection->fetchOne($select);
+    }
 }

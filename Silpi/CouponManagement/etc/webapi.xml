@@ -36,5 +36,19 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+
+    <route url="/V1/coupons/:id" method="PUT">
+        <service class="Silpi\CouponManagement\Api\CouponManagementInterface" method="updateCoupon"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/coupons/:id" method="DELETE">
+        <service class="Silpi\CouponManagement\Api\CouponManagementInterface" method="deleteCoupon"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
 
