@@ -7,8 +7,8 @@ interface CouponManagementInterface
     /**
      * Create a new coupon dynamically
      *
-     * @param mixed $data
+     * 
      * @return mixed
      */
-    public function createCoupon($data);
+    public function createCoupon();
 }

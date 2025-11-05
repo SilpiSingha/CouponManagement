@@ -2,17 +2,17 @@
 
 namespace Silpi\CouponManagement\Model;
 
-use Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory;
+use Silpi\CouponManagement\Model\ResourceModel\DiscountRules\CollectionFactory;
 use Silpi\CouponManagement\Api\CouponListInterface;
 
 class CouponList implements CouponListInterface
 {
-    protected $ruleCollectionFactory;
+    protected $discountRulesCollectionFactory;
 
     public function __construct(
-        CollectionFactory $ruleCollectionFactory
+        CollectionFactory $discountRulesCollectionFactory
     ) {
-        $this->ruleCollectionFactory = $ruleCollectionFactory;
+        $this->discountRulesCollectionFactory = $discountRulesCollectionFactory;
     }
 
     /**
@@ -21,23 +21,23 @@ class CouponList implements CouponListInterface
     public function getList()
     {
         try {
-            $collection = $this->ruleCollectionFactory->create();
-            $collection->addFieldToFilter('is_active', 1);
+            $collection = $this->discountRulesCollectionFactory->create();
+            // $collection->addFieldToFilter('is_active', 1);
 
             $data = [];
 
             foreach ($collection as $rule) {
                 $data[] = [
-                    'rule_id'        => $rule->getRuleId(),
-                    'name'           => $rule->getName(),
-                    'coupon_code'    => $rule->getCouponCode(),
-                    'discount_type'  => $rule->getSimpleAction(),
-                    'discount_value' => $rule->getDiscountAmount(),
-                    'from_date'      => $rule->getFromDate(),
-                    'to_date'        => $rule->getToDate(),
-                    'uses_per_coupon'=> $rule->getUsesPerCoupon(),
-                    'uses_per_customer' => $rule->getUsesPerCustomer(),
-                    'is_active'      => (bool)$rule->getIsActive()
+                    'rule_id'        => $rule->getEntityId(),
+                    // 'name'           => $rule->getName(),
+                    'coupon_code'    => $rule->getCode(),
+                    // 'discount_type'  => $rule->getSimpleAction(),
+                    // 'discount_value' => $rule->getDiscountAmount(),
+                    // 'from_date'      => $rule->getFromDate(),
+                    // 'to_date'        => $rule->getToDate(),
+                    // 'uses_per_coupon'=> $rule->getUsesPerCoupon(),
+                    // 'uses_per_customer' => $rule->getUsesPerCustomer(),
+                    // 'is_active'      => (bool)$rule->getIsActive()
                 ];
             }
 

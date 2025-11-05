@@ -2,18 +2,18 @@
 
 namespace Silpi\CouponManagement\Model;
 
-use Magento\SalesRule\Api\RuleRepositoryInterface;
+use Silpi\CouponManagement\Api\DiscountRulesRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Silpi\CouponManagement\Api\CouponGetInterface;
 
 class CouponGet implements CouponGetInterface
 {
-    protected $ruleRepository;
+    protected $discountRulesRepository;
 
     public function __construct(
-        RuleRepositoryInterface $ruleRepository
+        DiscountRulesRepositoryInterface $discountRulesRepository
     ) {
-        $this->ruleRepository = $ruleRepository;
+        $this->discountRulesRepository = $discountRulesRepository;
     }
 
     /**
@@ -22,24 +22,24 @@ class CouponGet implements CouponGetInterface
     public function getById($id)
     {
         try {
-            $rule = $this->ruleRepository->getById($id);
+            $rule = $this->discountRulesRepository->getById($id);
 
             return [
                 'status' => true,
                 'coupon' => [
-                    'rule_id'          => $rule->getRuleId(),
-                    'name'             => $rule->getName(),
-                    'description'      => $rule->getDescription(),
-                    'coupon_code'      => $rule->getCouponCode(),
-                    'discount_type'    => $rule->getSimpleAction(),
-                    'discount_value'   => $rule->getDiscountAmount(),
-                    'from_date'        => $rule->getFromDate(),
-                    'to_date'          => $rule->getToDate(),
-                    'uses_per_coupon'  => $rule->getUsesPerCoupon(),
-                    'uses_per_customer'=> $rule->getUsesPerCustomer(),
-                    'is_active'        => (bool)$rule->getIsActive(),
-                    'customer_group_ids' => $rule->getCustomerGroupIds(),
-                    'conditions_serialized' => $rule->getConditionsSerialized()
+                    'rule_id'          => $rule->getEntityId(),
+                    // 'name'             => $rule->getName(),
+                    // 'description'      => $rule->getDescription(),
+                    'coupon_code'      => $rule->getCode(),
+                    // 'discount_type'    => $rule->getSimpleAction(),
+                    // 'discount_value'   => $rule->getDiscountAmount(),
+                    // 'from_date'        => $rule->getFromDate(),
+                    // 'to_date'          => $rule->getToDate(),
+                    // 'uses_per_coupon'  => $rule->getUsesPerCoupon(),
+                    // 'uses_per_customer'=> $rule->getUsesPerCustomer(),
+                    // 'is_active'        => (bool)$rule->getIsActive(),
+                    // 'customer_group_ids' => $rule->getCustomerGroupIds(),
+                    // 'conditions_serialized' => $rule->getConditionsSerialized()
                 ]
             ];
 
