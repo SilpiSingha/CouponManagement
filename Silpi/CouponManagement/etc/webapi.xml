@@ -22,5 +22,19 @@
 			<resource ref="anonymous"/>
         </resources>
     </route>
+
+    <route url="/V1/apply-coupon/:id" method="POST">
+        <service class="Silpi\CouponManagement\Api\ApplyCouponInterface" method="applyCoupon"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/applicable-coupons" method="POST">
+        <service class="Silpi\CouponManagement\Api\ApplicableCouponsInterface" method="getApplicableCoupons"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
 

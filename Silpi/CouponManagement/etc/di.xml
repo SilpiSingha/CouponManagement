@@ -6,5 +6,6 @@
 	<preference for="Silpi\CouponManagement\Api\DiscountRulesRepositoryInterface" type="Silpi\CouponManagement\Model\CouponGet"/>
     <preference for="Silpi\CouponManagement\Api\DiscountRulesRepositoryInterface" type="Silpi\CouponManagement\Model\DiscountRulesRepository" />
     <preference for="Silpi\CouponManagement\Api\Data\DiscountRulesInterface" type="Silpi\CouponManagement\Model\DiscountRules" />
-
+ 	<preference for="Silpi\CouponManagement\Api\ApplyCouponInterface" type="Silpi\CouponManagement\Model\ApplyCoupon" />
+	<preference for="Silpi\CouponManagement\Api\ApplicableCouponsInterface" type="Silpi\CouponManagement\Model\ApplicableCoupons" />
 </config>
