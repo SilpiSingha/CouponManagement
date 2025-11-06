@@ -11,69 +11,76 @@ This is a custom Magento 2 module for coupon management.
 Place this module under `app/code/Silpi/CouponManegment` and run Magento setup upgrade commands.
 
 
+Apply Coupon – Functional Overview
 
-Future Implimentation
+The Apply Coupon functionality is designed to apply a given coupon to a shopping cart, update the cart totals accordingly, and return the updated cart with the applied discount details. The feature accepts the coupon ID and cart data as input, processes applicable rules based on the coupon type, and outputs the updated cart response.
 
-Coupon Type can be managed by using other table where by using API we can save different coupon type and use that id to pass while creating a coupon 
-so that in future different coupon type can be create and we can fetch coupon by same type using filter 
+Use Cases and Implementation Details
+Case 1: Cart-wise Coupons
 
-We can seggregate by product attributes as well example, product category or brand.
+For cart-level coupons, the discount applies to the total cart value.
 
-For BxGy coupon 
-we can impliment the logic by quantity wise, like Buy2Get1 Buy 2 qty of any sku from the Buy array and get 1 of same sku free
+The system validates the coupon condition (e.g., minimum threshold amount).
 
-We can keep a usage limit for a coupon to be applied for a customer 
-Example:-We can track a new customer and can target a first time purchase coupon so in this case usage limit will be 1.
+Once eligible, the total discount is reflected in the cart summary.
 
-We can track the number of time the coupon gets use by a customer so we know which coupon is performing better for which customer
+Example: Get 10% off on orders above ₹1000.
 
-We can create a report by location wise using the order address to have an idea which product is getting ordered more because of BxGy coupon or product wise coupon. 
+Output: The cart shows the discounted grand total with a single discount entry.
 
-We can impliment to let the customer apply multi coupon like product wise and payment gateway wise. 
+Case 2: Product-wise Coupons
 
-We can track a new customer and can target a first time purchase coupon 
+For product-level coupons, the discount is applied directly to the specific product price.
 
-We can manage a seperate coupon discount condition structure for API to provide new conditions for new type of coupon
+Currently, the item price in the cart is updated directly (final price reflects the discount).
 
+Future enhancement: Introduce dual pricing fields — original_price and final_price — to display both the base price and discounted price for better transparency.
 
-Assumption - every coupon will have Coupon type and Condition details
+Example: Get ₹100 off on selected SKUs.
 
-Currently Implimented:
+Output: Each eligible item shows an updated price reflecting the coupon benefit.
 
-POST /coupons
-Create a coupon with below Columns 
-Coupon Type
-Coupon Condition Details
+Case 3: Buy X Get Y (BxGy) Coupons
 
-If this two filed is not present coupon will not get created.
+The BxGy (Buy X Get Y) type can be implemented in multiple ways:
 
-GET /coupons
-retrieve a list of all coupon related data
+Quantity-based Offer – e.g., “Buy 1, Get 1 Free” for a specific SKU.
 
+The cart dynamically adds the free product (same SKU) or adjusts pricing to reflect the equivalent discount (e.g., 50% off when buying 2).
 
-Apply Coupon 
+Category/Brand-based Offer – Discounts triggered based on product category or brand.
 
-take coupon id and cart data as input
-and generate updated cart as output after applying the discount.
+Example: Buy any 2 T-shirts, get 1 free from the same brand.
 
-Case 1 
-for cart wise total discount shows the discounted value due to the coupon condition being on whole cart
+Additional Enhancements
 
-Case 2
-For product wise coupon, cart item price is getting updated directly instead of showing a discoount value.
-For future implimentation, we can pass two price before price and final price to able to see the discounts
+Coupon Status Management
+Introduce a status field to activate or deactivate coupons dynamically without deletion.
 
-Case 3
-For BxGy can be impliment to a different way like 
-Addinng a qty parameter - Buying a perticular SKU 1qty get 1 of that same sku free. which can be display at cart like 55% off price reduce.
-Or we can add coupon based on other criteria like Category wise or Brand wise.
+Validity Period
+Add start_date and expiry_date fields to enable time-bound offers such as Monsoon Sale or Festival Offers.
 
-A status filed can be impliment to make a coupon inactive. A expiry date and a start date filed can be impliment to make a coupon discount available or active for a perticular time period like Monsoon Sale. 
-New type of coupon can be implimented like Payment Gateway wise. like Credit card or debit Card wise discount. 
+Payment Gateway–based Coupons
+Support coupons applicable only for specific payment methods (e.g., Credit Card, Debit Card, or Wallet discounts).
 
-Multiple cound discount apply could be implimented.
+Multiple Coupon Application
+Enable combining multiple coupons where business rules allow cumulative discounts.
 
-If a coupn details gets changed in between or gets deleted 
+Coupon Modification Handling
+Define rules for cases where a coupon’s configuration changes or is deleted after being applied:
 
+Option 1: Retain previously applied discounts.
+
+Option 2: Recalculate and remove invalid discounts during checkout validation.
+
+Expected Output
+
+The API or service returns the updated cart object, including:
+
+Updated product prices or total cart discount
+
+Coupon details (type, discount value, and description)
+
+Final payable amount
 
 
