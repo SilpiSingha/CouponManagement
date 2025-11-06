@@ -2,8 +2,6 @@
 
 namespace Silpi\CouponManagement\Model;
 
-// use Magento\SalesRule\Api\Data\RuleInterfaceFactory;
-// use Magento\SalesRule\Model\RuleRepository;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Silpi\CouponManagement\Api\CouponManagementInterface;
@@ -28,51 +26,25 @@ class CouponCreation implements CouponManagementInterface
     public function createCoupon()
     {
         try {
-            // $type = $data['type'] ?? null;
-            // $details = $data['details'] ?? [];
-
             $payload = @file_get_contents('php://input');
-            $response = json_decode($payload);
-            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/silpi.log');
-            $logger = new \Zend_Log();
-            $logger->addWriter($writer);
-            $logger->info(json_encode($response));
-            $this->discountRulesFactory->create()->setData(["type" => "cart-wise", "code" => "flat12"])->save();
+            $request = json_decode($payload, true);
 
+            if (empty($request) || empty($request['type'])) {
+                throw new LocalizedException(__('Request data or coupon type is missing.'));
+            }
 
-            // if (!$type || empty($details)) {
-            //     throw new LocalizedException(__('Invalid input data.'));
-            // }
+            $array = [];
+            $array['type'] = $request['type'];
+            $array['condition_details'] = json_encode($request['condition_details'] ?? []);
+            $coupon = $this->discountRulesFactory->create()->setData($array)->save();
 
-            // $threshold = $details['threshold'] ?? 0;
-            // $discount = $details['discount'] ?? 0;
-
-            // $rule = $this->ruleFactory->create();
-            // $rule->setName('Auto Coupon ' . strtoupper($type) . ' ' . time())
-            //     ->setDescription('Generated via API')
-            //     ->setIsActive(1)
-            //     ->setSimpleAction('by_percent')
-            //     ->setDiscountAmount($discount)
-            //     ->setFromDate($this->date->date('Y-m-d'))
-            //     ->setToDate(null)
-            //     ->setUsesPerCustomer(1)
-            //     ->setUsesPerCoupon(1)
-            //     ->setCouponType(\Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
-            //     ->setCustomerGroupIds([0,1,2,3])
-            //     ->setStopRulesProcessing(0)
-            //     ->setSimpleFreeShipping(0)
-            //     ->setConditionsSerialized($this->getCartCondition($threshold))
-            //     ->setCouponCode('SILPI' . strtoupper(substr(md5(time()), 0, 6)));
-
-            // $this->ruleRepository->save($rule);
-
-            return [
+            return json_encode([
                 'status' => true,
                 'message' => 'Coupon created successfully',
-                // 'coupon_code' => $rule->getCouponCode(),
-                // 'discount' => $discount,
-                // 'threshold' => $threshold
-            ];
+                'id' => $coupon->getId(),
+                'type' => $coupon->getType(),
+                'details' => $coupon->getConditionDetails(),
+            ]);
 
         } catch (\Exception $e) {
             return ['status' => false, 'message' => $e->getMessage()];

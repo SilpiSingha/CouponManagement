@@ -168,7 +168,7 @@ class DiscountRulesRepository implements DiscountRulesRepositoryInterface
     *
     * @param int $id discountRulesid
     *
-    * @return void
+    * @return boolean
     */
 
     public function deleteById( $id )

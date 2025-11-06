@@ -7,8 +7,8 @@ interface ApplyCouponInterface
      * Apply a specific coupon to the given cart
      *
      * @param int $id
-     * @param mixed $cartData
+     * @param mixed $cart
      * @return mixed
      */
-    public function applyCoupon($id, $cartData);
+    public function applyCoupon($id, $cart);
 }

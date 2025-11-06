@@ -36,15 +36,44 @@ We can track a new customer and can target a first time purchase coupon
 We can manage a seperate coupon discount condition structure for API to provide new conditions for new type of coupon
 
 
+Assumption - every coupon will have Coupon type and Condition details
+
 Currently Implimented:
 
 POST /coupons
 Create a coupon with below Columns 
-Coupon Name
-Coupon Code
 Coupon Type
-Coupon Condition
-Coupon Discount Details
+Coupon Condition Details
+
+If this two filed is not present coupon will not get created.
 
 GET /coupons
 retrieve a list of all coupon related data
+
+
+Apply Coupon 
+
+take coupon id and cart data as input
+and generate updated cart as output after applying the discount.
+
+Case 1 
+for cart wise total discount shows the discounted value due to the coupon condition being on whole cart
+
+Case 2
+For product wise coupon, cart item price is getting updated directly instead of showing a discoount value.
+For future implimentation, we can pass two price before price and final price to able to see the discounts
+
+Case 3
+For BxGy can be impliment to a different way like 
+Addinng a qty parameter - Buying a perticular SKU 1qty get 1 of that same sku free. which can be display at cart like 55% off price reduce.
+Or we can add coupon based on other criteria like Category wise or Brand wise.
+
+A status filed can be impliment to make a coupon inactive. A expiry date and a start date filed can be impliment to make a coupon discount available or active for a perticular time period like Monsoon Sale. 
+New type of coupon can be implimented like Payment Gateway wise. like Credit card or debit Card wise discount. 
+
+Multiple cound discount apply could be implimented.
+
+If a coupn details gets changed in between or gets deleted 
+
+
+
